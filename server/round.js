@@ -42,11 +42,11 @@ class ROUND {
 
   simplifyWord(word) {
     return word
-      .toLowerCase()
-      .replace(/\s{2,}/g, " ")
-      .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "");
+        .toLowerCase()
+        .replace(/\s{2,}/g, " ")
+        .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
   }
 
   splitWord(word) {

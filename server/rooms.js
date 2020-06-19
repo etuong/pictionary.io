@@ -4,12 +4,6 @@ const ROOM = require("./room");
 var ROOMS = {};
 
 const CREATE_ROOM = function (socket, options) {
-  if (typeof options.name == "undefined" || options.name.length == 0) {
-    let msg = "You have to set a name!";
-    socket.emit("create_room_error", msg);
-    return false;
-  }
-
   LEAVE_ROOM(socket);
 
   let roomID = createID();

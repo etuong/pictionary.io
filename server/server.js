@@ -8,9 +8,9 @@ const CHAT = require("./chat");
 global.io = io;
 global.CHAT = CHAT;
 
-app.get("/", (req, res) => {
-  res.redirect('https://karol-waliszewski.github.io/charades.io/');
-});
+// app.get("/", (req, res) => {
+//   res.redirect('https://karol-waliszewski.github.io/charades.io/');
+// });
 
 io.on("connection", socket => {
   // Connect

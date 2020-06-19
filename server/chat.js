@@ -1,13 +1,13 @@
 const createID = require("uniqid");
 
-const SEND_MESSAGE = function(roomID, messageObject) {
+const SEND_MESSAGE = function (roomID, messageObject) {
   io.to(roomID).emit(
-    "receive_message",
-    Object.assign(messageObject, { id: createID() })
+      "receive_message",
+      Object.assign(messageObject, {id: createID()})
   );
 };
 
-const SEND_SERVER_MESSAGE = function(roomID, message) {
+const SEND_SERVER_MESSAGE = function (roomID, message) {
   io.to(roomID).emit("receive_server_message", message);
 };
 

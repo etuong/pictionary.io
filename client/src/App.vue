@@ -25,7 +25,7 @@
     },
     methods: {
       leaveRoom() {
-        this.$socket.emit("leave_room");
+        this.$socket.client.emit("leave_room");
       },
       openCreator() {
         this.$data.isModalVisible = true;
@@ -35,7 +35,7 @@
       },
     },
     sockets: {
-      connect() {
+      ethan() {
         // Fired when the socket connects.
         console.log("this is ethan");
       },

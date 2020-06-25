@@ -8,9 +8,9 @@ const CHAT = require("./chat");
 global.io = io;
 global.CHAT = CHAT;
 
-// app.get("/", (req, res) => {
-//   res.redirect('https://karol-waliszewski.github.io/charades.io/');
-// });
+app.get("/", (req, res) => {
+  res.redirect('http://localhost:8080/pictionary.io/');
+});
 
 io.on("connection", socket => {
   // Connect
@@ -33,6 +33,7 @@ io.on("connection", socket => {
 
   // Creating the room
   socket.on("create_room", options => {
+    io.emit("ethan");
     ROOMS.createRoom(socket, options);
   });
 
@@ -116,7 +117,7 @@ io.on("connection", socket => {
 let port = process.env.PORT || 5050;
 
 http.listen(port, () => {
-  console.log(`Puns.io server is listening on port: ${port}`);
+  console.log(`Server is listening on port: ${port}`);
 });
 
 process.on("exit", function (code) {

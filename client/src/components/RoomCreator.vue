@@ -188,7 +188,7 @@
           return false;
         }
 
-        this.$socket.emit("create_room", roomdata);
+        this.$socket.client.emit("create_room", roomdata);
         this.$emit("closeCreator");
 
         this.resetForm();

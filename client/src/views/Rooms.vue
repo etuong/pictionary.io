@@ -3,8 +3,8 @@
         <section class="hero">
             <div class="hero-body">
                 <div class="container">
-                    <h1 class="title">This is rooms' page</h1>
-                    <h2 class="subtitle">Choose a room, or create new one and start the game ✏️</h2>
+                    <h1 class="title">This page displays all the active rooms</h1>
+                    <h2 class="subtitle">Choose a room, or create new one and start the game️</h2>
                 </div>
             </div>
         </section>
@@ -37,7 +37,9 @@
   export default {
     name: "About",
     data() {
-      return {rooms: []};
+      return {
+        rooms: []
+      };
     },
     methods: {
       getRooms() {
@@ -47,12 +49,10 @@
     sockets: {
       receive_rooms(rooms) {
         this.$data.rooms = rooms;
-        //console.log(rooms);
       }
     },
     mounted() {
       this.getRooms();
-      // console.log(this.$socket);
     }
   };
 </script>

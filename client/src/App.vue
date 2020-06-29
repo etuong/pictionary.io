@@ -8,30 +8,29 @@
                 :isVisible="isModalVisible"
                 @closeCreator="closeCreator"
         ></room-creator>
+        <footer-component></footer-component>
     </div>
 </template>
+
 <script>
   import Nav from "./components/Nav";
   import RoomCreator from "./components/RoomCreator.vue";
-  import * as io from 'socket.io-client';
+  import Footer from "./components/Footer";
 
   export default {
     name: "App",
     data() {
-      return {users: [], isModalVisible: false, name: null, socket: io('http://localhost:5050')};
+      return {
+        users: [],
+        isModalVisible: false,
+        name: null
+      };
     },
     components: {
       navigation: Nav,
       "room-creator": RoomCreator,
+      "footer-component": Footer,
     },
-    // mounted() {
-    //   this.socket.on('ethan', function (data) {
-    //     console.log('player 2 joined game');
-    //   });
-    //   this.socket.on('room_created', (id) => {
-    //     this.$router.push({name: "room", params: {id: id}});
-    //   });
-    // },
     methods: {
       leaveRoom() {
         this.$socket.emit("leave_room");
@@ -44,10 +43,6 @@
       },
     },
     sockets: {
-      ethan() {
-        // Fired when the socket connects.
-        console.log("this is ethan");
-      },
       room_created(id) {
         this.$router.push({name: "room", params: {id: id}});
       }
@@ -61,6 +56,7 @@
     },
   };
 </script>
+
 <style lang="scss">
     @import "./styles/variables.scss";
 

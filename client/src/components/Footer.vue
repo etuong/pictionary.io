@@ -3,8 +3,8 @@
         <div class="container">
             <div class="content">
                 <p>
-                    Created by
-                    <a href="https://github.com/Karol-Waliszewski">Karol Waliszewski</a> 👨‍💻
+                    Forked and Modified by
+                    <a href="https://github.com/etuong/pictionary.io.git">Ethan Uong</a> 👨‍💻
                 </p>
             </div>
         </div>
@@ -20,7 +20,7 @@
 <style lang="scss" scoped>
     .footer {
         width: 100%;
-        padding-bottom: 3rem;
+        padding: 1rem;
         text-align: right;
         @media screen and (max-width: 500px) {
             text-align: center;

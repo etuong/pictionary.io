@@ -13,19 +13,28 @@
 <script>
   import Nav from "./components/Nav";
   import RoomCreator from "./components/RoomCreator.vue";
+  import * as io from 'socket.io-client';
 
   export default {
     name: "App",
     data() {
-      return {users: [], isModalVisible: false, name: null};
+      return {users: [], isModalVisible: false, name: null, socket: io('http://localhost:5050')};
     },
     components: {
       navigation: Nav,
       "room-creator": RoomCreator,
     },
+    // mounted() {
+    //   this.socket.on('ethan', function (data) {
+    //     console.log('player 2 joined game');
+    //   });
+    //   this.socket.on('room_created', (id) => {
+    //     this.$router.push({name: "room", params: {id: id}});
+    //   });
+    // },
     methods: {
       leaveRoom() {
-        this.$socket.client.emit("leave_room");
+        this.$socket.emit("leave_room");
       },
       openCreator() {
         this.$data.isModalVisible = true;

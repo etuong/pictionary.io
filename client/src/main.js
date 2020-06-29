@@ -1,18 +1,27 @@
 import Vue from "vue";
-import VueSocketIOExt from 'vue-socket.io-extended';
-import VueSweetAlert from "vue-sweetalert2";
 import router from "./router.js";
 import App from "./App.vue";
+import VueSocketIO from "vue-socket.io";
 import Colors from "./styles/variables.scss";
-import io from "socket.io-client"
+import VueSweetAlert from "vue-sweetalert2";
 import "./registerServiceWorker";
 import "./styles/index.scss";
 
 Vue.config.productionTip = false;
 
-const socket = io('http://localhost:5050\'');
+// Vue + Socket.io
+Vue.use(
+    new VueSocketIO({
+      debug: false,
+      // connection: "https://charadesio.herokuapp.com/",
+      connection: "http://localhost:5050",
+    })
+);
 
-Vue.use(VueSocketIOExt, socket);
+// const socket = io('http://localhost:5050\'');
+//
+// Vue.use(VueSocketIOExt, socket);
+//
 
 // SweetAlert2
 Vue.use(VueSweetAlert, {

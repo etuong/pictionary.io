@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const http = require("http").Server(app);
 const io = require("socket.io")(http);
+const cors = require('cors');
 const ROOMS = require("./rooms");
 const CHAT = require("./chat");
 
@@ -11,6 +12,7 @@ global.CHAT = CHAT;
 app.get("/", (req, res) => {
   res.redirect('http://localhost:8080/pictionary.io/');
 });
+app.use(cors());
 
 io.on("connection", socket => {
   // Connect

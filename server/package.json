@@ -12,6 +12,7 @@
   "author": "Karol Waliszewski",
   "license": "MIT",
   "dependencies": {
+    "cors": "2.8.5",
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "cheerio": "^1.0.0-rc.2",

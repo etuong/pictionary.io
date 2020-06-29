@@ -71,7 +71,7 @@
         this.ctx.lineJoin = "round";
       },
       clearBoard() {
-        this.$socket.client.emit("clear");
+        this.$socket.emit("clear");
       },
       drawLine(line) {
         let CTX = this.ctx;
@@ -92,7 +92,7 @@
           if (this.prevPos.x != null && this.prevPos.y != null && this.started) {
             let coords = {prevPos: this.prevPos, currPos: pos};
             let paintObj = {color: this.activeColor, coords};
-            this.$socket.client.emit("paint", paintObj);
+            this.$socket.emit("paint", paintObj);
             this.drawLine(paintObj);
           }
           // New previous pos

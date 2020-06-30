@@ -2,7 +2,6 @@ class ROUND {
   constructor(word) {
     this.word = word;
     this.simplified = this.splitWord(this.simplifyWord(word))
-    this.clock = null;
     this.lineHistory = [];
   }
 

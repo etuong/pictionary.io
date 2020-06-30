@@ -1,5 +1,3 @@
-const axios = require("axios");
-const cheerio = require("cheerio");
 const ROUND = require("./round");
 
 class ROOM {
@@ -18,24 +16,24 @@ class ROOM {
           ...options.points,
         } || {};
     this.painter = null;
-    this.created = true;
     this.round = null;
+    this.words = this.initializeWords();
   }
 
-  async getWord() {
-    let word = await axios.get(
-        "http://www.kalambury.org/lib/generate.php?fbclid=IwAR0jEZum7uQ8tSN8ZzpMt3c1ZXwe5KJYYuJRiay2sqyTfx_3pnjyEKAxDL4"
-    );
-    word = cheerio.load(word.data.trim()).text();
-    return word;
+  initializeWords() {
+    var fs = require('fs');
+    var words = fs.readFileSync('words.txt', 'utf8');
+    return words.split(', ');
   }
 
   async initRound() {
-    let words = [
-      await this.getWord(),
-      await this.getWord(),
-      await this.getWord(),
-    ];
+    const set = new Set();
+    while (set.size !== 3) {
+      set.add(Math.floor((Math.random() * this.words.length)));
+    }
+    const words = [];
+    set.forEach(index => words.push(this.words[index]));
+
     this.setPainter();
     io.to(this.painter).emit("round_initialized", words);
 
@@ -126,15 +124,6 @@ class ROOM {
     CHAT.sendCallbackID(this.painter, "You are a new painter!");
 
     return true;
-  }
-
-  getPainter() {
-    for (let user of this.users) {
-      if (user == this.painter) {
-        return user;
-      }
-    }
-    return false;
   }
 
   addUser({id}) {

@@ -4,8 +4,6 @@ const ROOM = require("./room");
 var ROOMS = {};
 
 const CREATE_ROOM = function (socket, options) {
-  LEAVE_ROOM(socket);
-
   let roomID = createID();
 
   let room = new ROOM({

@@ -187,6 +187,7 @@
     },
   };
 </script>
+
 <style lang="scss">
     .whiteboard-wrapper {
         height: 100%;
@@ -198,16 +199,9 @@
         width: 100%;
         height: 100%;
         flex: 1;
-        // background: palegoldenrod;
         @media screen and (min-width: 768px) {
             min-height: 590px;
         }
-    }
-
-    .whiteboard-footer {
-        /* display: flex;
-        flex-direction: column;
-        padding: 1rem; */
     }
 
     .color {

@@ -24,7 +24,7 @@
                     <td>{{room.isPrivate ? 'Private' : 'Public'}}</td>
                     <td>{{room.users.length}}/{{room.maxUsers}}</td>
                     <td class="is-paddingless">
-                        <router-link :to="'./room/'+room.id" class="button is-light is-fullwidth">join</router-link>
+                        <router-link :to="'./room/'+room.id" class="button is-light is-fullwidth">Join</router-link>
                     </td>
                 </tr>
                 </tbody>

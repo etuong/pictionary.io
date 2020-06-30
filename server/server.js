@@ -33,9 +33,8 @@ io.on("connection", socket => {
       io.to(room.id).emit('receive_users', room.getUsers());
   });
 
-  // Creating the room
+  // Create a new room
   socket.on("create_room", options => {
-    io.emit("ethan");
     ROOMS.createRoom(socket, options);
   });
 

@@ -14,7 +14,7 @@
                 <tr>
                     <th>Name</th>
                     <th>Type</th>
-                    <th>Users</th>
+                    <th>Players</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -22,7 +22,7 @@
                 <tr v-for="room in rooms" :key="room.id">
                     <td>{{room.name}}</td>
                     <td>{{room.isPrivate ? 'Private' : 'Public'}}</td>
-                    <td>{{room.users.length}}/{{room.maxUsers}}</td>
+                    <td>{{room.players.length}}/{{room.maxPlayers}}</td>
                     <td class="is-paddingless">
                         <router-link :to="'./room/'+room.id" class="button is-light is-fullwidth">Join</router-link>
                     </td>
@@ -41,18 +41,13 @@
         rooms: []
       };
     },
-    methods: {
-      getRooms() {
-        this.$socket.emit("get_rooms");
-      }
-    },
     sockets: {
       receive_rooms(rooms) {
         this.$data.rooms = rooms;
       }
     },
     mounted() {
-      this.getRooms();
+      this.$socket.emit("get_rooms");
     }
   };
 </script>

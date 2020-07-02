@@ -11,39 +11,41 @@ const CREATE_ROOM = function (socket, options) {
     name: options.name,
     isPrivate: options.isPrivate || false,
     password: options.password || "",
-    maxUsers: options.maxUsers || 8,
+    maxPlayers: options.maxPlayers || 8,
     roundTime: options.roundTime || 120,
     wordTime: options.wordTime || 25,
-    users: [],
+    players: [],
     points: {},
     created: true,
   });
 
   ROOMS[roomID] = room;
   socket.name = "Host";
-  room.addUser(socket);
+  room.addPlayer(socket);
   socket.join(roomID);
+
+  // Emit a message to route to the Room view
   socket.emit("room_created", roomID);
+
   UPDATE_ROOMS();
 
   room.initRound();
-
-  return true;
 };
 
 const GET_ROOMS = function () {
   let rooms = [];
   for (let room in ROOMS) {
     rooms.push(
-      Object.assign(ROOMS[room], {
-        id: room,
-      })
+        Object.assign(ROOMS[room], {
+          id: room,
+        })
     );
   }
   return rooms;
 };
 
 const UPDATE_ROOMS = function () {
+  // Emit to all sockets to update the rooms in Rooms view
   io.emit("receive_rooms", GET_ROOMS());
 };
 
@@ -60,12 +62,12 @@ const JOIN_ROOM = function (socket, id, password) {
     return false;
   }
 
-  if (room.users.includes(socket.id)) {
+  if (room.players.includes(socket.id)) {
     return false; // You're already in this room;
   }
 
-  if (room.users.length == room.maxUsers) {
-    var msg = "There is max amount of users.";
+  if (room.players.length == room.maxPlayers) {
+    var msg = "There is max amount of players.";
     flag = false;
   }
 
@@ -77,14 +79,12 @@ const JOIN_ROOM = function (socket, id, password) {
   }
 
   if (!flag) {
-    //console.error(msg);
     socket.emit("join_room_error", msg);
     return false;
   }
-
-  LEAVE_ROOM(socket);
+  
   socket.join(id);
-  ROOMS[id].addUser(socket);
+  ROOMS[id].addPlayer(socket);
   UPDATE_ROOMS();
 
   return true;
@@ -94,29 +94,28 @@ const LEAVE_ROOM = function (socket) {
   let rooms = GET_ROOMS();
 
   if (rooms.length == 0) {
-    return false;
+    return;
   }
 
   for (let room of rooms) {
-    for (let user of room.users) {
-      if (user == socket.id) {
-        let isEmpty = ROOMS[room.id].removeUser(socket);
+    for (let player of room.players) {
+      if (player == socket.id) {
+        let isEmpty = ROOMS[room.id].removePlayer(socket);
         if (isEmpty) {
           delete ROOMS[room.id];
         }
         UPDATE_ROOMS();
         socket.leave(room.id);
+        console.log(`Player ${socket.name} has left room ${room.name}`);
       }
     }
   }
-
-  return true;
 };
 
 const GET_SOCKET_ROOM = function (socket) {
   for (let room of GET_ROOMS()) {
-    for (let user of room.users) {
-      if (user == socket.id) {
+    for (let player of room.players) {
+      if (player == socket.id) {
         return room;
       }
     }

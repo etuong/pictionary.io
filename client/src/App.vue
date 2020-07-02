@@ -1,13 +1,13 @@
 <template>
     <div id="app" class="app">
-        <navigation @openCreator="openCreator"/>
+        <navigation @openCreator="openRoomCreator"/>
         <div class="main">
-            <router-view @openCreator="openCreator"/>
+            <router-view @openRoomCreator="openRoomCreator"/>
         </div>
         <room-creator
                 :isVisible="isModalVisible"
-                @closeCreator="closeCreator"
-        ></room-creator>
+                @closeRoomCreator="closeRoomCreator">
+        </room-creator>
         <footer-component></footer-component>
     </div>
 </template>
@@ -21,9 +21,7 @@
     name: "App",
     data() {
       return {
-        users: [],
         isModalVisible: false,
-        name: null
       };
     },
     components: {
@@ -32,25 +30,25 @@
       "footer-component": Footer,
     },
     methods: {
-      leaveRoom() {
-        this.$socket.emit("leave_room");
-      },
-      openCreator() {
+      openRoomCreator() {
         this.$data.isModalVisible = true;
       },
-      closeCreator() {
+      closeRoomCreator() {
         this.$data.isModalVisible = false;
       },
     },
     sockets: {
       room_created(id) {
-        this.$router.push({name: "room", params: {id: id}});
+        this.$router.push({
+          name: "room",
+          params: {id: id}
+        });
       }
     },
     watch: {
       async $route(to, from) {
         if (from.name == "room") {
-          this.leaveRoom();
+          this.$socket.emit("leave_room");
         }
       },
     },

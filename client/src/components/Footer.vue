@@ -4,7 +4,7 @@
             <div class="content">
                 <p>
                     Forked and Modified by
-                    <a href="https://github.com/etuong/pictionary.io.git">Ethan Uong</a> 👨‍💻
+                    <a href="https://github.com/etuong/pictionary.io.git" target="_blank">Ethan Uong</a> 👨‍💻
                 </p>
             </div>
         </div>

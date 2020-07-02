@@ -15,21 +15,21 @@
             <div class="column is-3">
                 <div class="card">
                     <header class="card-header">
-                        <p class="card-header-title">Players: {{ users.length }}</p>
+                        <p class="card-header-title">Players: {{ players.length }}</p>
                     </header>
                     <div class="card-content">
-                        <ul class="content playerlist" v-if="showUsers">
+                        <ul class="content playerlist" v-if="showPlayers">
                             <li
-                                    v-for="user in sortedUsers"
-                                    :key="user.id"
-                                    v-if="painter == user.id"
+                                    v-for="player in sortedPlayers"
+                                    :key="player.id"
+                                    v-if="painter == player.id"
                             >
-                                <strong>{{ user.name }} ✏️</strong> :
-                                <span class="has-text-weight-bold">{{ user.points }}</span>
+                                <strong>{{ player.name }} ✏️</strong> :
+                                <span class="has-text-weight-bold">{{ player.points }}</span>
                             </li>
-                            <li :key="user.id" v-else>
-                                {{ user.name }} :
-                                <span class="has-text-weight-bold">{{ user.points }}</span>
+                            <li :key="player.id" v-else>
+                                {{ player.name }} :
+                                <span class="has-text-weight-bold">{{ player.points }}</span>
                             </li>
                         </ul>
                     </div>
@@ -141,8 +141,8 @@
     name: "About",
     data() {
       return {
-        users: [],
-        showUsers: false,
+        players: [],
+        showPlayers: false,
         room: null,
         message: "",
         messages: [],
@@ -161,24 +161,23 @@
         // Getting Password
         let password = "";
 
-        if (!this.room.users.includes(this.$socket.id) && this.room.isPrivate) {
+        if (!this.room.players.includes(this.$socket.id) && this.room.isPrivate) {
           password = await this.getPassword();
         }
 
-        // Getting Name
+        // Create the new player
         let name = await this.getName();
-        this.$socket.emit("setName", name);
-        this.$socket.name = name;
-        this.showUsers = true;
-
-        // Joining
         this.$socket.emit("join_room", {
+          // Socket ID is the params of the URL
           id: this.$route.params.id,
+          name,
           password,
         });
+        this.$socket.name = name;
+        this.showPlayers = true;
       },
-      getUsers() {
-        this.$socket.emit("get_users");
+      getPlayers() {
+        this.$socket.emit("get_players");
       },
       getRoomInfo() {
         this.$socket.emit("get_room", this.$route.params.id);
@@ -232,11 +231,8 @@
       },
     },
     sockets: {
-      receive_users(users) {
-        this.users = users;
-      },
-      receive_users_error(msg) {
-        this.$swal({title: msg, type: "error"});
+      receive_players(players) {
+        this.players = players;
       },
       join_room_error(msg) {
         this.$swal({title: msg, type: "error"});
@@ -246,7 +242,7 @@
         if (room) {
           this.room = room;
           this.setPainter(room.painter);
-          this.getUsers();
+          this.getPlayers();
           this.joinRoom();
         } else {
           this.$swal({title: "This room does not exist", type: "error"});
@@ -295,8 +291,8 @@
       },
     },
     computed: {
-      sortedUsers() {
-        return this.users.sort((a, b) => {
+      sortedPlayers() {
+        return this.players.sort((a, b) => {
           return b.points - a.points;
         });
       },

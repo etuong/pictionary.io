@@ -6,9 +6,9 @@ class ROOM {
     this.name = options.name;
     this.isPrivate = options.isPrivate || false;
     this.password = options.password || "";
-    this.maxUsers = options.maxUsers || 8;
-    this.users = [...options.users] || [];
-    this.queue = [...options.users] || [];
+    this.maxPlayers = options.maxPlayers || 8;
+    this.players = [...options.players] || [];
+    this.queue = [...options.players] || [];
     this.roundTime = options.roundTime || 120;
     this.wordTime = options.wordTime || 25;
     this.points =
@@ -40,7 +40,7 @@ class ROOM {
     let time = this.wordTime;
     io.to(this.id).emit("countdown_painter", time);
     let interval = setInterval(() => {
-      if (this.users.length > 1) {
+      if (this.players.length > 1) {
         if (time <= 0) {
           CHAT.sendServerMessage(
               this.id,
@@ -77,7 +77,7 @@ class ROOM {
   }
 
   startRound(word) {
-    if (this.users.length > 1) {
+    if (this.players.length > 1) {
       this.round = new ROUND(word);
       io.to(this.id).emit("round_started");
       io.to(this.painter).emit("receive_password", word);
@@ -111,7 +111,7 @@ class ROOM {
   }
 
   setPainter() {
-    if (this.users.length == 0) return false;
+    if (this.players.length == 0) return false;
 
     let newPainter;
     do {
@@ -126,18 +126,18 @@ class ROOM {
     return true;
   }
 
-  addUser({id}) {
-    this.users.push(id);
+  addPlayer({id}) {
+    this.players.push(id);
     this.points[id] = 0;
     this.queue.unshift(id);
-    this.updateUsers();
+    this.updatePlayers();
   }
 
-  removeUser({id, name}) {
-    this.users.splice(this.users.indexOf(id), 1);
+  removePlayer({id, name}) {
+    this.players.splice(this.players.indexOf(id), 1);
     this.queue.splice(this.queue.indexOf(id), 1);
 
-    // If user who left was a painter, replace him.
+    // If player who left was a painter, replace him.
     if (this.painter == id) {
       this.stopRound();
       CHAT.sendServerMessage(
@@ -146,31 +146,31 @@ class ROOM {
       );
     }
 
-    this.updateUsers();
+    this.updatePlayers();
 
     // Return if room is empty
-    return this.users.length == 0 ? true : false;
+    return this.players.length == 0 ? true : false;
   }
 
   givePoints({id}, points = 1) {
     this.points[id] += points;
-    this.updateUsers();
+    this.updatePlayers();
   }
 
-  updateUsers() {
-    io.to(this.id).emit("receive_users", this.getUsers());
+  updatePlayers() {
+    io.to(this.id).emit("receive_players", this.getPlayers());
   }
 
-  getUsers() {
-    let usrs = [];
-    for (let user of this.users) {
-      usrs.push({
-        id: user,
-        points: this.points[user] || 0,
-        name: io.sockets.sockets[user].name || user,
+  getPlayers() {
+    let players = [];
+    for (let player of this.players) {
+      players.push({
+        id: player,
+        points: this.points[player] || 0,
+        name: io.sockets.sockets[player].name || player,
       });
     }
-    return usrs;
+    return players;
   }
 }
 

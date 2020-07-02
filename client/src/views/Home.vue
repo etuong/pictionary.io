@@ -27,7 +27,7 @@
                 </div>
             </div>
 
-            <button class="button is-primary is-large " @click="openCreator">
+            <button class="button is-primary is-large " @click="openRoomCreator">
                 <strong>Create a room</strong>
             </button>
         </section>
@@ -38,8 +38,8 @@
   export default {
     name: "homepage",
     methods: {
-      openCreator() {
-        this.$emit("openCreator");
+      openRoomCreator() {
+        this.$emit("openRoomCreator");
       },
     },
   };

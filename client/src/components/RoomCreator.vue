@@ -5,8 +5,7 @@
             transition="fade"
             @cancel="close"
             @ok="createRoom"
-            class="section-xs"
-    >
+            class="section-xs">
         <form class="columns is-multiline">
             <div class="field column is-12">
                 <label class="label">Room name</label>
@@ -16,8 +15,7 @@
                             type="text"
                             placeholder="Enter the name.."
                             v-model="name"
-                            required
-                    />
+                            required/>
                 </div>
                 <p class="help is-danger" v-if="errors['name']">
                     You have to enter the name.
@@ -32,8 +30,7 @@
                             type="text"
                             placeholder="Text input"
                             v-model="password"
-                            :disabled="!isPrivate"
-                    />
+                            :disabled="!isPrivate"/>
                 </div>
                 <p class="help is-danger" v-if="errors['password']">
                     Minimum password length is 3
@@ -47,13 +44,12 @@
                             class="input"
                             type="number"
                             placeholder="Text input"
-                            v-model="maxUsers"
+                            v-model="maxPlayers"
                             min="2"
-                            required
-                    />
+                            required/>
                 </div>
-                <p class="help is-danger" v-if="errors['users']">
-                    Minimum users quantity is 2
+                <p class="help is-danger" v-if="errors['players']">
+                    Minimum players quantity is 2
                 </p>
             </div>
 
@@ -67,13 +63,10 @@
                                 placeholder="Text input"
                                 v-model="roundTime"
                                 min="30"
-                                required
-                        />
+                                required/>
                     </div>
                     <p class="control">
-                        <a class="button is-static">
-                            s
-                        </a>
+                        <a class="button is-static">s</a>
                     </p>
                 </div>
                 <p class="help is-danger" v-if="errors['round']">
@@ -91,13 +84,10 @@
                                 placeholder="Text input"
                                 v-model="wordTime"
                                 min="10"
-                                required
-                        />
+                                required/>
                     </div>
                     <p class="control">
-                        <a class="button is-static">
-                            s
-                        </a>
+                        <a class="button is-static">s</a>
                     </p>
                 </div>
                 <p class="help is-danger" v-if="errors['word']">
@@ -112,8 +102,7 @@
                             text-enabled="The room is private"
                             text-disabled="The room is public"
                             theme="bulma"
-                            color="default"
-                    ></switches>
+                            color="default"/>
                 </div>
             </div>
         </form>
@@ -130,7 +119,7 @@
       return {
         name: "",
         password: "",
-        maxUsers: 5,
+        maxPlayers: 5,
         roundTime: 120,
         wordTime: 25,
         isPrivate: false,
@@ -163,11 +152,11 @@
           }
         }
 
-        if (roomdata.maxUsers < 2) {
-          this.$set(this.$data.errors, "users", true);
+        if (roomdata.maxPlayers < 2) {
+          this.$set(this.$data.errors, "players", true);
           flag = false;
         } else {
-          this.$set(this.$data.errors, "users", false);
+          this.$set(this.$data.errors, "players", false);
         }
 
         if (roomdata.roundTime < 30) {
@@ -189,19 +178,19 @@
         }
 
         this.$socket.emit("create_room", roomdata);
-        this.$emit("closeCreator");
+        this.$emit("closeRoomCreator");
 
         this.resetForm();
 
         return true;
       },
       close() {
-        this.$emit("closeCreator");
+        this.$emit("closeRoomCreator");
       },
       resetForm() {
         this.$data.name = "";
         this.$data.password = "";
-        this.$data.maxUsers = 5;
+        this.$data.maxPlayers = 5;
         this.$data.isPrivate = false;
         this.$data.errors = {};
       },

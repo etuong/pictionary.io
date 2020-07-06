@@ -1,5 +1,6 @@
 <template>
     <div id="app" class="app">
+        <audio id="audio" src="https://www.soundjay.com/human/sounds/fart-03.mp3" autostart="false"></audio>
         <navigation @openCreator="openRoomCreator"/>
         <div class="main">
             <router-view @openRoomCreator="openRoomCreator"/>
@@ -43,6 +44,10 @@
           name: "room",
           params: {id: id}
         });
+      },
+      play_audio() {
+        const sound = document.getElementById("audio");
+        sound.play()
       }
     },
     watch: {

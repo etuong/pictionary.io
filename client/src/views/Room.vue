@@ -11,7 +11,6 @@
                     }}
                 </h2>
             </div>
-
             <div class="column is-3">
                 <div class="card">
                     <header class="card-header">
@@ -19,11 +18,7 @@
                     </header>
                     <div class="card-content">
                         <ul class="content playerlist" v-if="showPlayers">
-                            <li
-                                    v-for="player in sortedPlayers"
-                                    :key="player.id"
-                                    v-if="painter == player.id"
-                            >
+                            <li v-for="player in sortedPlayers" :key="player.id" v-if="painter == player.id">
                                 <strong>{{ player.name }} ✏️</strong> :
                                 <span class="has-text-weight-bold">{{ player.points }}</span>
                             </li>
@@ -34,19 +29,12 @@
                         </ul>
                     </div>
                     <footer class="card-footer">
-                        <router-link
-                                to="/rooms"
-                                class="card-footer-item has-text-danger is-hoverable"
-                        >Leave Room
-                        </router-link
-                        >
+                        <router-link to="/rooms" class="card-footer-item has-text-danger is-hoverable">
+                            Leave Room
+                        </router-link>
                     </footer>
                 </div>
-
-                <div
-                        class="card card--painter"
-                        v-if="iDraw && !roundStarted && words.length > 0"
-                >
+                <div class="card card--painter" v-if="iDraw && !roundStarted && words.length > 0">
                     <header class="card-header">
                         <div class="card-header-title">
                             <p>Choose next word</p>
@@ -56,21 +44,13 @@
                     <div class="card-content">
                         <ul class="content">
                             <li v-for="word in words" :key="word">
-                                <button
-                                        class="button is-fullwidth is-word"
-                                        @click="
-                    () => {
-                      chooseWord(word);
-                    }
-                  "
-                                >
+                                <button class="button is-fullwidth is-word" @click="() => { chooseWord(word); }">
                                     {{ word }}
                                 </button>
                             </li>
                         </ul>
                     </div>
                 </div>
-
                 <div class="card card--painter" v-if="iDraw && roundStarted">
                     <header class="card-header">
                         <div class="card-header-title">
@@ -78,7 +58,17 @@
                         </div>
                     </header>
                     <div class="card-content">
-                        <p class="content">{{ password }}</p>
+                        <p class="content">{{ guessedWord }}</p>
+                    </div>
+                </div>
+                <div class="card card--painter" v-if="!iDraw && roundStarted">
+                    <header class="card-header">
+                        <div class="card-header-title">
+                            <p>Word</p>
+                        </div>
+                    </header>
+                    <div class="card-content">
+                        <p class="content">{{ hints }}</p>
                     </div>
                 </div>
             </div>
@@ -92,19 +82,11 @@
                     </header>
                     <div class="chat-body" ref="chat">
                         <ul class="chat-messages">
-                            <li
-                                    v-for="message in messages"
-                                    :key="message.id"
-                                    class="chat-message"
-                            >
-                <span
-                        class="has-text-weight-bold"
-                        v-if="message.sender != 'server'"
-                >{{ message.sender }}:</span
-                >
+                            <li v-for="message in messages" :key="message.id" class="chat-message">
+                                <span class="has-text-weight-bold" v-if="message.sender != 'server'">{{ message.sender }}:</span>
                                 <span v-if="message.sender == 'server'">
-                  <strong>{{ message.msg }}</strong>
-                </span>
+                                    <strong>{{ message.msg }}</strong>
+                                </span>
                                 <span v-else>{{ " " + message.msg }}</span>
                             </li>
                         </ul>
@@ -112,19 +94,11 @@
                     <footer class="card-footer">
                         <form class="field has-addons chat-input" @submit="sendMessage">
                             <div class="control">
-                                <input
-                                        v-model="message"
-                                        class="input is-borderless"
-                                        type="text"
-                                        placeholder="Send a message..."
-                                />
+                                <input v-model="message" class="input is-borderless"
+                                       type="text" placeholder="Send a message..."/>
                             </div>
                             <div class="control">
-                                <input
-                                        type="submit"
-                                        class="button is-primary is-borderless"
-                                        value="Send"
-                                />
+                                <input type="submit" class="button is-primary is-borderless" value="Send"/>
                             </div>
                         </form>
                     </footer>
@@ -149,7 +123,8 @@
         painter: null,
         words: [],
         iDraw: false,
-        password: null,
+        guessedWord: null,
+        hints: null,
         roundStarted: false,
         time: 0,
         wordTime: 0,
@@ -267,8 +242,11 @@
           this.scrollChat();
         }
       },
-      receive_password(password) {
-        this.password = password;
+      receive_guessed_word(guessedWord) {
+        this.guessedWord = guessedWord;
+      },
+      receive_hints(hints) {
+        this.hints = hints;
       },
       round_initialized(words) {
         this.words = words;
@@ -321,7 +299,7 @@
     }
 
     .chat-body {
-        height: 500px;
+        height: 505px;
         overflow-y: auto;
         overflow-x: hidden;
         @media screen and (max-width: 670px) {

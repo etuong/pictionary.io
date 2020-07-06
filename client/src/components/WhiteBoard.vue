@@ -10,33 +10,20 @@
                     :draggable="false"
                     @mousemove="emitLine"
                     @touchmove="getTouchPosition"
-                    @mouseleave="leaveCanvas"
-            ></canvas>
+                    @mouseleave="leaveCanvas"/>
             <canvas
                     v-else
                     class="whiteboard"
                     ref="canvas"
                     height="600"
                     width="800"
-                    :draggable="false"
-            ></canvas>
-            <footer class="card whiteboard-footer" v-if="iDraw">
-                <div class="card-content">
-                    <div class="columns is-multiline is-mobile">
-                        <div class="column" v-for="color in colors" :key="color">
-                            <div
-                                    class="color"
-                                    :class="{ active: activeColor == color }"
-                                    :style="{ background: `${color}` }"
-                                    @click="activeColor = color"
-                            ></div>
-                        </div>
-                    </div>
+                    :draggable="false"/>
+            <footer class="card-footer" v-if="iDraw">
+                <div class="card-footer-item">
+                    <input type="color" class="color" value="activeColor" @change="onColorChange($event)">
                 </div>
-                <div class="card-footer">
-                    <a href="#" class="card-footer-item" @click.prevent="clearBoard"
-                    >Clear the board</a
-                    >
+                <div class="card-footer-item">
+                    <a href="#" class="card-footer-item" @click.prevent="clearBoard">Clear the board</a>
                 </div>
             </footer>
         </div>
@@ -48,16 +35,6 @@
     name: "Whiteboard",
     data() {
       return {
-        colors: [
-          "#000",
-          "#654321",
-          "#95a5a6",
-          "#f1c40f",
-          "#f39c12",
-          "#c0392b",
-          "#3498db",
-          "#2ecc71",
-        ],
         activeColor: "#000",
         prevPos: {x: null, y: null},
         ctx: null,
@@ -72,6 +49,9 @@
       },
       clearBoard() {
         this.$socket.emit("clear");
+      },
+      onColorChange(event) {
+        this.activeColor = event.target.value;
       },
       drawLine(line) {
         let CTX = this.ctx;
@@ -205,13 +185,10 @@
     }
 
     .color {
-        padding-bottom: 100%;
-        border-radius: 4px;
+        width: 100px;
+        height: 40px;
+        border-radius: 10px;
         cursor: pointer;
-        border: 1px solid lightgray;
 
-        &.active {
-            border: 1px solid #000;
-        }
     }
 </style>

@@ -5,14 +5,14 @@ class ROUND {
     this.lineHistory = [];
   }
 
-  check(word) {
-    let prompted = this.splitWord(this.simplifyWord(word));
+  check(guessedWord) {
+    let prompted = this.splitWord(this.simplifyWord(guessedWord));
     if (this.simplified.length != prompted.length) return false;
 
     let flag = true;
 
-    for (let w of prompted) {
-      if (!this.simplified.includes(w)) {
+    for (let p of prompted) {
+      if (!this.simplified.includes(p)) {
         flag = false;
       }
     }
@@ -20,23 +20,25 @@ class ROUND {
     return flag;
   }
 
-  isClose(word) {
-    if (word.length < 3) {
+  isClose(guessedWord) {
+    if (guessedWord.length < 3 || guessedWord.length !== this.word.length) {
       return false;
     }
-    let prompted = this.splitWord(this.simplifyWord(word));
-
+    guessedWord = this.simplifyWord(guessedWord);
+    const word = this.simplifyWord(this.word);
     let counter = 0;
-
-    for (let p of prompted) {
-      for (let w of this.simplified) {
-        if (w.includes(p) && w.length > 3 && p.length > 3) {
-          counter++;
-        }
+    for (let i = 0; i < guessedWord.length; i++) {
+      const a = guessedWord[i];
+      const b = word[i];
+      if (a !== b) {
+        counter++;
+      }
+      if (counter > 1) {
+        return false;
       }
     }
 
-    return counter >= this.simplified.length / 2.5;
+    return true;
   }
 
   simplifyWord(word) {

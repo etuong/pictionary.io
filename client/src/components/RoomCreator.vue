@@ -120,7 +120,7 @@
         name: "",
         password: "",
         maxPlayers: 5,
-        roundTime: 120,
+        roundTime: 80,
         wordTime: 25,
         isPrivate: false,
         errors: {},

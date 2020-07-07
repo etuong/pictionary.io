@@ -112,7 +112,7 @@
   import Whiteboard from "../components/WhiteBoard";
 
   export default {
-    name: "About",
+    name: "Room",
     data() {
       return {
         players: [],

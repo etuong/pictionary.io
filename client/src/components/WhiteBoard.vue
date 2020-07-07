@@ -1,8 +1,7 @@
 <template>
     <div class="column is-6">
         <div class="card whiteboard-wrapper">
-            <canvas
-                    v-if="iDraw"
+            <canvas v-if="iDraw"
                     class="whiteboard"
                     ref="canvas"
                     height="600"
@@ -11,8 +10,7 @@
                     @mousemove="emitLine"
                     @touchmove="getTouchPosition"
                     @mouseleave="leaveCanvas"/>
-            <canvas
-                    v-else
+            <canvas v-else
                     class="whiteboard"
                     ref="canvas"
                     height="600"
@@ -20,7 +18,12 @@
                     :draggable="false"/>
             <footer class="card-footer" v-if="iDraw">
                 <div class="card-footer-item">
-                    <input type="color" class="color" value="activeColor" @change="onColorChange($event)">
+                    <span class="label-input ">Color: </span><input type="color" class="color" value="activeColor"
+                                                                    @change="onColorChange($event)">
+                </div>
+                <div class="card-footer-item">
+                    <span class="label-input ">Line Width: </span><input type="number" value="activeLineWidth" min="1"
+                                                                         max="200" @change="onLineWidthChange($event)">
                 </div>
                 <div class="card-footer-item">
                     <a href="#" class="card-footer-item" @click.prevent="clearBoard">Clear the board</a>
@@ -36,6 +39,7 @@
     data() {
       return {
         activeColor: "#000",
+        activeLineWidth: 1,
         prevPos: {x: null, y: null},
         ctx: null,
         draw: false,
@@ -53,11 +57,15 @@
       onColorChange(event) {
         this.activeColor = event.target.value;
       },
+      onLineWidthChange(event) {
+        this.activeLineWidth = event.target.value;
+      },
       drawLine(line) {
         let CTX = this.ctx;
-        let {color, coords} = line;
+        let {color, lineWidth, coords} = line;
         if (coords) {
           CTX.strokeStyle = color;
+          CTX.lineWidth = lineWidth;
           CTX.beginPath();
           CTX.moveTo(coords.prevPos.x, coords.prevPos.y);
           CTX.lineTo(coords.currPos.x, coords.currPos.y);
@@ -71,7 +79,7 @@
 
           if (this.prevPos.x != null && this.prevPos.y != null && this.started) {
             let coords = {prevPos: this.prevPos, currPos: pos};
-            let paintObj = {color: this.activeColor, coords};
+            let paintObj = {color: this.activeColor, lineWidth: this.activeLineWidth, coords};
             this.$socket.emit("paint", paintObj);
             this.drawLine(paintObj);
           }
@@ -189,6 +197,9 @@
         height: 40px;
         border-radius: 10px;
         cursor: pointer;
+    }
 
+    .label-input {
+        margin-right: 8px;
     }
 </style>

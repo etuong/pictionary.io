@@ -12,7 +12,7 @@ const CREATE_ROOM = function (socket, options) {
     isPrivate: options.isPrivate || false,
     password: options.password || "",
     maxPlayers: options.maxPlayers || 8,
-    roundTime: options.roundTime || 120,
+    roundTime: options.roundTime || 80,
     wordTime: options.wordTime || 25,
     players: [],
     points: {},
@@ -82,7 +82,7 @@ const JOIN_ROOM = function (socket, id, password) {
     socket.emit("join_room_error", msg);
     return false;
   }
-  
+
   socket.join(id);
   ROOMS[id].addPlayer(socket);
   UPDATE_ROOMS();
@@ -112,6 +112,7 @@ const LEAVE_ROOM = function (socket) {
   }
 };
 
+// Get the room where the player is in
 const GET_SOCKET_ROOM = function (socket) {
   for (let room of GET_ROOMS()) {
     for (let player of room.players) {

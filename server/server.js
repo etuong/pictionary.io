@@ -72,6 +72,7 @@ io.on("connection", socket => {
             self: `Congratulations! You've guessed the word!`,
             broadcast: `${socket.name} guessed the word (${room.round.word}) and earned 1 point!`
           });
+          socket.to(room.id).emit('play_audio');
           room.stopRound();
         } else {
           if (room.round.isClose(msg)) {
@@ -84,11 +85,11 @@ io.on("connection", socket => {
     }
   });
 
-  socket.on("paint", (coords) => {
+  socket.on("paint", (paintObj) => {
     let room = ROOMS.getSocketRoom(socket);
     if (room.painter == socket.id && room.round != null) {
-      socket.to(room.id).emit('paint', coords);
-      room.round.addLine(coords);
+      socket.to(room.id).emit('paint', paintObj);
+      room.round.addLine(paintObj);
     }
   });
 

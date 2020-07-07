@@ -14,12 +14,19 @@
 3. Choose your name
 4. Enjoy 😊
 
+## Development
+- client folder contains frontend related artifacts
+  - ```yarn serve``` runs the application
+  - ```yarn build``` builds the static resources
+  - ```yarn deploy``` deploys the static resources to your Github page
+- server folder contains backend related files
+  - ```yarn start``` kicks off the server
+
 ### Technologies 🔧 
 + [Vue.js](https://vuejs.org/)
 + [Socket.io](https://socket.io/)
 
 #### License ⚖️
-
 [MIT](https://en.wikipedia.org/wiki/MIT_License)
 
 

@@ -29,7 +29,7 @@ class ROOM {
 
   async initRound() {
     const set = new Set();
-    while (set.size !== 3) {
+    while (set.size !== 5) {
       set.add(Math.floor((Math.random() * this.words.length)));
     }
     const words = [];

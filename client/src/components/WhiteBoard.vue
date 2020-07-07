@@ -18,11 +18,11 @@
                     :draggable="false"/>
             <footer class="card-footer" v-if="iDraw">
                 <div class="card-footer-item">
-                    <span class="label-input ">Color: </span><input type="color" class="color" value="activeColor"
+                    <span class="label-input ">Color: </span><input type="color" class="color" :value="activeColor"
                                                                     @change="onColorChange($event)">
                 </div>
                 <div class="card-footer-item">
-                    <span class="label-input ">Line Width: </span><input type="number" value="activeLineWidth" min="1"
+                    <span class="label-input ">Line Width: </span><input type="number" :value="activeLineWidth" min="1"
                                                                          max="200" @change="onLineWidthChange($event)">
                 </div>
                 <div class="card-footer-item">

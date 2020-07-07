@@ -21,6 +21,13 @@
   - ```yarn deploy``` deploys the static resources to your Github page
 - server folder contains backend related files
   - ```yarn start``` kicks off the server
+- Heroku Setup
+    ```
+    npm install -g heroku
+    heroku login
+    heroku git:remote -a my-app
+    git subtree push --prefix server heroku master
+    ```
 
 ### Technologies 🔧 
 + [Vue.js](https://vuejs.org/)

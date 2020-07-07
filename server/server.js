@@ -10,7 +10,7 @@ global.io = io;
 global.CHAT = CHAT;
 
 app.get("/", (req, res) => {
-  res.redirect('http://localhost:8080/pictionary.io/');
+  res.redirect('https://etuong.github.io/pictionary.io');
 });
 app.use(cors());
 

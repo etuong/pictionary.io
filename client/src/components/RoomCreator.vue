@@ -8,7 +8,7 @@
             class="section-xs">
         <form class="columns is-multiline">
             <div class="field column is-12">
-                <label class="label">Room name</label>
+                <label class="label">Room Name</label>
                 <div class="control">
                     <input
                             class="input"
@@ -54,7 +54,7 @@
             </div>
 
             <div class="column is-6">
-                <label class="label">Round time</label>
+                <label class="label">Round Time</label>
                 <div class="field has-addons">
                     <div class="control is-fullwidth">
                         <input
@@ -75,7 +75,7 @@
             </div>
 
             <div class="column is-6">
-                <label class="label">Word choosing time</label>
+                <label class="label">Time to Choose a Word</label>
                 <div class="field has-addons">
                     <div class="control is-fullwidth">
                         <input
@@ -93,6 +93,17 @@
                 <p class="help is-danger" v-if="errors['word']">
                     Minimum time for choosing a word is 10 seconds.
                 </p>
+            </div>
+
+            <div class="field column is-12">
+                <label class="label">Custom Words [Comma is the delimiter e.g "Cat, dog, bird.."]</label>
+                <div class="control">
+                    <input
+                            class="input"
+                            type="text"
+                            placeholder="Input custom words that you would like to choose.."
+                            v-model="customWords"/>
+                </div>
             </div>
 
             <div class="field column is-12">
@@ -122,6 +133,7 @@
         maxPlayers: 5,
         roundTime: 80,
         wordTime: 25,
+        customWords: "",
         isPrivate: false,
         errors: {},
       };
@@ -191,6 +203,7 @@
         this.$data.name = "";
         this.$data.password = "";
         this.$data.maxPlayers = 5;
+        this.$data.customWords = "";
         this.$data.isPrivate = false;
         this.$data.errors = {};
       },

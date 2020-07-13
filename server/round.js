@@ -57,10 +57,6 @@ class ROUND {
   addLine(line) {
     this.lineHistory.push(line);
   }
-
-  clearLines() {
-    this.lineHistory = [];
-  }
 }
 
 module.exports = ROUND;

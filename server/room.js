@@ -17,7 +17,7 @@ class ROOM {
         } || {};
     this.painter = null;
     this.round = null;
-    this.words = this.initializeWords();
+    this.words = [...this.initializeWords(), ...options.customWords.split(', ')];
     this.maskedWord = null;
   }
 
@@ -125,9 +125,6 @@ class ROOM {
   }
 
   clearBoard() {
-    if (this.round != null) {
-      this.round.clearLines();
-    }
     io.to(this.id).emit("clear");
   }
 

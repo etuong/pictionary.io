@@ -21,14 +21,22 @@
   - ```yarn deploy``` deploys the static resources to your Github page
 - server folder contains backend related files
   - ```yarn start``` kicks off the server
-- Heroku Setup
-    ```
-    npm install -g heroku
-    heroku login
-    heroku git:remote -a my-app
-    git subtree push --prefix server heroku master
-    ```
 
+## Deployment
+- Push server
+  - If you host the socket.io server with Heroku, follow the following instruction
+  - Heroku Setup
+      ```
+      npm install -g heroku
+      heroku login
+      heroku git:remote -a my-app
+      git subtree push --prefix server heroku master
+      ```
+- Push client
+  - Use your preference to host your client app. I chose Github Page for its simplicity.
+  - Run ```yarn build``` and then ```yarn deploy```
+  - Make sure main.js connects to your server (and not localhost)
+  
 ### Technologies 🔧 
 + [Vue.js](https://vuejs.org/)
 + [Socket.io](https://socket.io/)

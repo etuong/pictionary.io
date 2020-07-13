@@ -17,7 +17,7 @@ class ROOM {
         } || {};
     this.painter = null;
     this.round = null;
-    this.words = [...this.initializeWords(), ...options.customWords.split(', ')];
+    this.words = [...this.initializeWords(), ...this.addCustomWords(options.customWords)];
     this.maskedWord = null;
   }
 
@@ -25,6 +25,13 @@ class ROOM {
     var fs = require('fs');
     var words = fs.readFileSync('words.txt', 'utf8');
     return words.split(', ');
+  }
+
+  addCustomWords(customWords) {
+    if (customWords && customWords.includes(", ")) {
+      return customWords.split(', ');
+    }
+    return [];
   }
 
   async initRound() {
